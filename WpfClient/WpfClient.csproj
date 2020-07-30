@@ -93,6 +93,9 @@
         <Compile Include="Commands\RegistrationCommand.cs" />
         <Compile Include="Commands\SendMessageCommand.cs" />
         <Compile Include="Converters\LoginPasswordConverter.cs" />
+        <Compile Include="Converters\MessageAlignmentConverter.cs" />
+        <Compile Include="Converters\MessageColorConverter.cs" />
+        <Compile Include="Converters\MessageDirectionConverter.cs" />
         <Compile Include="Models\Client.cs" />
         <Compile Include="ViewModels\ClientViewModel.cs" />
         <Compile Include="Views\Login.xaml.cs">

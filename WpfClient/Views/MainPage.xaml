@@ -4,11 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:WpfClient.ViewModels"
+      xmlns:converters="clr-namespace:WpfClient.Converters"
       mc:Ignorable="d"
       Title="MainPage"
+      x:Name="Page"
       d:DataContext="{d:DesignInstance viewModels:ClientViewModel}">
     <Page.Resources>
-
+        <converters:MessageAlignmentConverter x:Key="MessageAllignmentConverter" />
+        <converters:MessageDirectionConverter x:Key="MessageDirectionConverter" />
+        <converters:MessageColorConverter x:Key="MessageColorConverter" />
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,7 +30,7 @@
             </Grid.RowDefinitions>
 
             <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto">
-                <ItemsControl Background="Aqua" Margin="10" ItemsSource="{Binding Messages}">
+                <ItemsControl Background="Azure" Margin="10" ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel VerticalAlignment="Bottom" />
@@ -35,9 +39,28 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
+                                <StackPanel.HorizontalAlignment>
+                                    <MultiBinding Converter="{StaticResource MessageAllignmentConverter}">
+                                        <Binding Path="Sender" />
+                                        <Binding ElementName="Page" Path="DataContext.ClientInfo" />
+                                    </MultiBinding>
+                                </StackPanel.HorizontalAlignment>
+                                <StackPanel.FlowDirection>
+                                    <MultiBinding Converter="{StaticResource MessageDirectionConverter}">
+                                        <Binding Path="Sender" />
+                                        <Binding ElementName="Page" Path="DataContext.ClientInfo" />
+                                    </MultiBinding>
+                                </StackPanel.FlowDirection>
                                 <TextBlock FontSize="20" Text="{Binding Sender.Name}" Margin="10" Padding="5" />
-                                <Border BorderThickness="2" Background="LightGray" CornerRadius="10" Margin="5">
-                                    <TextBlock FontSize="20" Text="{Binding Text}" Padding="5" />
+                                <Border BorderThickness="2" CornerRadius="10" Margin="5">
+                                    <Border.Background>
+                                        <MultiBinding Converter="{StaticResource MessageColorConverter}">
+                                            <Binding Path="Sender" />
+                                            <Binding ElementName="Page" Path="DataContext.ClientInfo" />
+                                        </MultiBinding>
+                                    </Border.Background>
+                                    <TextBlock FontSize="20" Text="{Binding Text}" Padding="5">
+                                    </TextBlock>
                                 </Border>
                             </StackPanel>
                         </DataTemplate>
